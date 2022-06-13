@@ -1,8 +1,9 @@
-const Person = ({person}) =>{
+const Person = ({ person, deletePerson }) => {
   return (
-      <div>
-        {person.name} {person.number}
-      </div>
+    <div>
+      {person.name} {person.number}{' '}
+      <button onClick={() => deletePerson(person.name, person.id)}>delete</button>
+    </div>
   )
 }
 export default Person
