@@ -1,6 +1,9 @@
 GET http://localhost:3003/api/blogs
 
 ###
+GET http://localhost:3003/api/blogs/62bab2c4991393fb4c7093e6
+
+###
 POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
 
@@ -12,13 +15,13 @@ content-type: application/json
 }
 
 ###
-DELETE http://localhost:3003/api/blogs/62badc11f2dc43dae674ca3e HTTP/1.1
+DELETE http://localhost:3003/api/blogs/62c2f117418dac9e13f2b6aa HTTP/1.1
 content-type: application/json
 
 ###
-PUT http://localhost:3003/api/blogs/62bab2c4991393fb4c7093e6 HTTP/1.1
+PUT http://localhost:3003/api/blogs/62bab33c991393fb4c7093e9 HTTP/1.1
 content-type: application/json
 
 {
-    "likes": 10
+    "likes": 101
 }
