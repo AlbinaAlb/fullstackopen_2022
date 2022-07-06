@@ -6,17 +6,18 @@ GET http://localhost:3003/api/blogs/62bab2c4991393fb4c7093e6
 ###
 POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkYWxldiIsImlkIjoiNjJjNTM5ZDM0ZjllNTdhMTE1OTg1NTY5IiwiaWF0IjoxNjU3MTA5OTg5LCJleHAiOjE2NTcxMTM1ODl9.Au9CDozUPBYrsUsMU3xnTW7LrLYPMYzWWC_VcUcr-o0
 
 {
     "title": "Culinary blog",
     "author": "Ada Levitski",
     "url": "http://Culinary",
-    "likes": 12,
+    "likes": 123,
     "userId": "62c539d34f9e57a115985569"
 }
 
 ###
-DELETE http://localhost:3003/api/blogs/62c44ad950fadc7b96381f5e HTTP/1.1
+DELETE http://localhost:3003/api/blogs/62c57f83eb5c667abecaab40 HTTP/1.1
 content-type: application/json
 
 ###
