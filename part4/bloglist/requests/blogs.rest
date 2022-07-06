@@ -8,14 +8,15 @@ POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
 
 {
-    "title": "IT blog",
-    "author": "Dmitriy Albovich",
-    "url": "http://itblog",
-    "likes": 1205
+    "title": "Culinary blog",
+    "author": "Ada Levitski",
+    "url": "http://Culinary",
+    "likes": 12,
+    "userId": "62c539d34f9e57a115985569"
 }
 
 ###
-DELETE http://localhost:3003/api/blogs/62c2f117418dac9e13f2b6aa HTTP/1.1
+DELETE http://localhost:3003/api/blogs/62c44ad950fadc7b96381f5e HTTP/1.1
 content-type: application/json
 
 ###
