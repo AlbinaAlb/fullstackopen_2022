@@ -24,7 +24,7 @@ const App = () => {
       clearTimeout(timer)
     }
   }, [message])
-  
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
@@ -34,7 +34,7 @@ const App = () => {
     }
   }, [])
 
-  const handleLogin = async ( username, password ) => {
+  const handleLogin = async (username, password) => {
     try {
       const user = await loginService.login({
         username,
@@ -45,14 +45,14 @@ const App = () => {
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       setMessage(`You are logged in as ${username}`)
     } catch (exception) {
-       setMessage('error ' + exception.response.data.error)
+      setMessage('error ' + exception.response.data.error)
     }
   }
 
-   const handleLogout = () => {
+  const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
-  } 
+  }
 
   const createBlog = async (title, author, url) => {
     //Теперь мы можем скрыть форму из родительского компонента
@@ -70,26 +70,26 @@ const App = () => {
     }
   }
 
-   const updateLikes = async (id, blogToUpdate) => {
-     try {
-       const updateBlog = await blogService.update(id, blogToUpdate)
-       const newBlogs = blogs.map(blog => blog.id === id ? updateBlog : blog )
-       setBlogs(newBlogs)
-     } catch (exception) {
-       setMessage('error' + exception.response.data.error)
-     }
-   } 
+  const updateLikes = async (id, blogToUpdate) => {
+    try {
+      const updateBlog = await blogService.update(id, blogToUpdate)
+      const newBlogs = blogs.map((blog) => (blog.id === id ? updateBlog : blog))
+      setBlogs(newBlogs)
+    } catch (exception) {
+      setMessage('error' + exception.response.data.error)
+    }
+  }
 
-   const deleteBlog = async (id) => {
+  const deleteBlog = async (id) => {
     try {
       await blogService.remove(id)
-      const updateBlog = blogs.filter(blog => blog.id !== id)
+      const updateBlog = blogs.filter((blog) => blog.id !== id)
       setBlogs(updateBlog)
       setMessage('Blog removed')
     } catch (exception) {
-       setMessage('error' + exception.response.data.error)
+      setMessage('error' + exception.response.data.error)
     }
-   }
+  }
 
   const blogFormRef = useRef()
 
