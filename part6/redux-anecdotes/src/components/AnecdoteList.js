@@ -3,7 +3,7 @@ import { addVote } from '../reducers/anecdoteReducer'
 
 const AnecdoteList = () => {
   //компонент получает доступ к store. Функция выбирает данные из redux-store
-  const anecdotes = useSelector((state) => state)
+  const anecdotes = useSelector((state) => state.anecdotes)
   //возвращает ссылку на dispatch функцию из store Redux, можно использовать его для отправки действий
   const dispatch = useDispatch()
 
