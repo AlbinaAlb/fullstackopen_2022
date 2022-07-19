@@ -6,10 +6,11 @@ import {
   hideNotification,
 } from '../reducers/notificationReducer'
 const AnecdoteList = () => {
-  //компонент получает доступ к store. Функция выбирает данные из redux-store
-  const anecdotes = useSelector((state) => state.anecdotes)
-  const filterAnecdotes = useSelector((state) => state.filter)
-  //возвращает ссылку на dispatch функцию из store Redux, можно использовать его для отправки действий
+  const anecdotes = useSelector((state) =>
+    state.anecdotes.filter((anecdote) =>
+      anecdote.content.toLowerCase().includes(state.filter.toLowerCase())
+    )
+  )
   const dispatch = useDispatch()
 
   const handleVote = (id) => {
@@ -24,7 +25,6 @@ const AnecdoteList = () => {
   const sortedAnecdotes = orderBy(anecdotes, ['votes'], ['desc'])
 
   return sortedAnecdotes
-    .filter((anecdote) => anecdote.content.includes(filterAnecdotes))
     .map((anecdote) => (
       <div key={anecdote.id}>
         <div>{anecdote.content}</div>
