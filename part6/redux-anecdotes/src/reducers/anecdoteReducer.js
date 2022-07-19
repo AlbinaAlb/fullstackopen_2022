@@ -15,7 +15,6 @@ const anecdoteSlice = createSlice({
     appendAnecdote(state, action) {
       state.push(action.payload)
     },
-    //добавляет все анекдоты из сервера в store
     setAnecdotes(state, action) {
       return action.payload
     },
@@ -24,7 +23,6 @@ const anecdoteSlice = createSlice({
 
 export const { addVote, appendAnecdote, setAnecdotes } = anecdoteSlice.actions
 
-//thunk creators
 export const initializeAnecdoted = () => {
   return async (dispatch) => {
     const anecdotes = await anecdoteService.getAll()

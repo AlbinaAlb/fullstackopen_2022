@@ -21,10 +21,11 @@ export const { showNotification, clearNotification } = notificationSlice.actions
 
 export const setNotification = (content, timer) => {
   return async dispatch => {
+    window.clearTimeout(window.timeout)
     dispatch(showNotification(content))
-    setTimeout(() => {
+    window.timeout = setTimeout(() => {
       dispatch(clearNotification())
-    }, timer*1000);
+    }, timer * 1000)
   }
 }
 
