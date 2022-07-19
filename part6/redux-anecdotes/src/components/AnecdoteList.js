@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { orderBy } from 'lodash'
 import { setNotification } from '../reducers/notificationReducer'
+
 const AnecdoteList = () => {
   const anecdotes = useSelector((state) =>
     state.anecdotes.filter((anecdote) =>
