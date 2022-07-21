@@ -25,7 +25,7 @@ const App = () => {
       id: 2,
     },
   ])
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState(null)
   const navigate = useNavigate()
 
   const addNew = (anecdote) => {
