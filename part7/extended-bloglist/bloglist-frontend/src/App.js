@@ -6,24 +6,18 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import { useSelector, useDispatch } from 'react-redux'
+import { setNotification } from './reducers/notificationReducer'
 
 const App = () => {
+  const dispatch = useDispatch()
+  const message = useSelector((state) => state.message)
   const [blogs, setBlogs] = useState([])
-  const [message, setMessage] = useState(null)
   const [user, setUser] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
   }, [])
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setMessage(null)
-    }, 5000)
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [message])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -43,9 +37,9 @@ const App = () => {
       blogService.setToken(user.token)
       setUser(user)
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-      setMessage(`You are logged in as ${username}`)
-    } catch (exception) {
-      setMessage('error ' + exception.response.data.error)
+      dispatch(setNotification(`You are logged in as ${username}`, 5))
+    } catch (error) {
+      dispatch(setNotification('error ' + error.response.data.error, 5))
     }
   }
 
@@ -64,9 +58,9 @@ const App = () => {
         url,
       })
       setBlogs(blogs.concat(blog))
-      setMessage(`A new blog ${title} by ${author} added`)
-    } catch (exception) {
-      setMessage('error ' + exception.response.data.error)
+      dispatch(setNotification(`A new blog ${title} by ${author} added`, 5))
+    } catch (error) {
+      dispatch(setNotification('error ' + error.response.data.error, 5))
     }
   }
 
@@ -75,8 +69,9 @@ const App = () => {
       const updateBlog = await blogService.update(id, blogToUpdate)
       const newBlogs = blogs.map((blog) => (blog.id === id ? updateBlog : blog))
       setBlogs(newBlogs)
-    } catch (exception) {
-      setMessage('error' + exception.response.data.error)
+      dispatch(setNotification(`You liked '${updateBlog.title}'`, 5))
+    } catch (error) {
+      dispatch(setNotification('error' + error.response.data.error, 5))
     }
   }
 
@@ -85,9 +80,9 @@ const App = () => {
       await blogService.remove(id)
       const updateBlog = blogs.filter((blog) => blog.id !== id)
       setBlogs(updateBlog)
-      setMessage('Blog removed')
-    } catch (exception) {
-      setMessage('error' + exception.response.data.error)
+      dispatch(setNotification('Blog removed', 5))
+    } catch (error) {
+      dispatch(setNotification('error' + error.response.data.error, 5))
     }
   }
 
