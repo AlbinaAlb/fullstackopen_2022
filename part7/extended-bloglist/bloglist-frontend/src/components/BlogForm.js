@@ -1,16 +1,43 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { useField } from '../hooks'
+import { addBlog, initializeBlogs } from '../reducers/blogReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
-const BlogForm = ({ createBlog }) => {
-  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
+const BlogForm = () => {
+  const dispatch = useDispatch()
+  const { reset: resetTitle, ...title } = useField('text')
+  const { reset: resetAuthor, ...author } = useField('text')
+  const { reset: resetUrl, ...url } = useField('text')
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target
-    setNewBlog({ ...newBlog, [name]: value })
-  }
-  const handleCreateBlog = (event) => {
-    event.preventDefault()
-    createBlog(newBlog.title, newBlog.author, newBlog.url)
-    setNewBlog({ title: '', author: '', url: '' })
+  useEffect(() => {
+    dispatch(initializeBlogs())
+  }, [dispatch])
+
+  const handleCreateBlog = async (event) => {
+    try {
+      event.preventDefault()
+
+      const newBlog = {
+        title: title.value,
+        author: author.value,
+        url: url.value,
+      }
+
+      resetTitle()
+      resetAuthor()
+      resetUrl()
+
+      dispatch(addBlog(newBlog))
+      dispatch(
+        setNotification(
+          `A new blog ${newBlog.title} by ${newBlog.author} added`,
+          5
+        )
+      )
+    } catch (error) {
+      dispatch(setNotification('error ' + error.response.data.error, 5))
+    }
   }
 
   return (
@@ -19,33 +46,15 @@ const BlogForm = ({ createBlog }) => {
       <form onSubmit={handleCreateBlog}>
         <div>
           title
-          <input
-            name="title"
-            type="text"
-            value={newBlog.title}
-            onChange={handleInputChange}
-            placeholder="title"
-          />
+          <input {...title} />
         </div>
         <div>
           author
-          <input
-            name="author"
-            type="text"
-            value={newBlog.author}
-            onChange={handleInputChange}
-            placeholder="author"
-          />
+          <input {...author} />
         </div>
         <div>
           url
-          <input
-            name="url"
-            type="text"
-            value={newBlog.url}
-            onChange={handleInputChange}
-            placeholder="url"
-          />
+          <input {...url} />
         </div>
         <button type="submit">save</button>
       </form>

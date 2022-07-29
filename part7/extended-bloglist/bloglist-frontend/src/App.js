@@ -12,12 +12,8 @@ import { setNotification } from './reducers/notificationReducer'
 const App = () => {
   const dispatch = useDispatch()
   const message = useSelector((state) => state.message)
-  const [blogs, setBlogs] = useState([])
+  const blogs = useSelector((state) => state.blogs)
   const [user, setUser] = useState(null)
-
-  useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -48,23 +44,7 @@ const App = () => {
     setUser(null)
   }
 
-  const createBlog = async (title, author, url) => {
-    //Теперь мы можем скрыть форму из родительского компонента
-    blogFormRef.current.toggleVisibility()
-    try {
-      const blog = await blogService.create({
-        title,
-        author,
-        url,
-      })
-      setBlogs(blogs.concat(blog))
-      dispatch(setNotification(`A new blog ${title} by ${author} added`, 5))
-    } catch (error) {
-      dispatch(setNotification('error ' + error.response.data.error, 5))
-    }
-  }
-
-  const updateLikes = async (id, blogToUpdate) => {
+  /*   const updateLikes = async (id, blogToUpdate) => {
     try {
       const updateBlog = await blogService.update(id, blogToUpdate)
       const newBlogs = blogs.map((blog) => (blog.id === id ? updateBlog : blog))
@@ -84,7 +64,7 @@ const App = () => {
     } catch (error) {
       dispatch(setNotification('error' + error.response.data.error, 5))
     }
-  }
+  } */
 
   const blogFormRef = useRef()
 
@@ -101,16 +81,18 @@ const App = () => {
             <button onClick={handleLogout}>logout</button>
           </div>
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
-            <BlogForm createBlog={createBlog} />
+            <BlogForm  />
           </Togglable>
-          {blogs
-            .sort((a, b) => b.likes - a.likes)
+          {[...blogs]
+            .sort((a, b) => {
+              return b.likes - a.likes
+            })
             .map((blog) => (
               <Blog
                 key={blog.id}
                 blog={blog}
-                updateLikes={updateLikes}
-                deleteBlog={deleteBlog}
+                /* updateLikes={updateLikes}
+                deleteBlog={deleteBlog} */
                 username={user.username}
               />
             ))}
