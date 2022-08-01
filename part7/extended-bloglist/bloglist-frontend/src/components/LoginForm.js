@@ -1,15 +1,27 @@
-import { useState } from 'react'
-import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { userLogin } from '../reducers/loginReducer'
+import { useField } from '../hooks'
+import { setNotification } from '../reducers/notificationReducer'
 
-const LoginForm = ({ handleLogin }) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+const LoginForm = () => {
+  const dispatch = useDispatch()
+  const { reset: resetUsername, ...username } = useField('text')
+  const { reset: resetPassword, ...password } = useField('text')
 
   const onSubmit = (event) => {
     event.preventDefault()
-    handleLogin(username, password)
-    setUsername('')
-    setPassword('')
+    try {
+      const user = {
+        username: username.value,
+        password: password.value,
+      }
+      dispatch(userLogin(user))
+      dispatch(setNotification(`You are logged in as ${user.username}`, 5))
+    } catch (error) {
+      dispatch(setNotification('error ' + error.response.data.error, 5))
+    }
+    resetUsername()
+    resetPassword()
   }
 
   return (
@@ -18,23 +30,11 @@ const LoginForm = ({ handleLogin }) => {
       <form onSubmit={onSubmit}>
         <div>
           username
-          <input
-            id="username"
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
+          <input {...username} />
         </div>
         <div>
           password
-          <input
-            id="password"
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
+          <input {...password} />
         </div>
         <button id="login-button" type="submit">
           login
@@ -42,10 +42,6 @@ const LoginForm = ({ handleLogin }) => {
       </form>
     </div>
   )
-}
-
-LoginForm.propTypes = {
-  handleLogin: PropTypes.func.isRequired,
 }
 
 export default LoginForm
