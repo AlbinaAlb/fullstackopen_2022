@@ -28,8 +28,6 @@ export const { appendBlog, setBlogs, updateBlog, removeBlog } =
 
 export const initializeBlogs = () => {
   return async (dispatch) => {
-    // eslint-disable-next-line no-debugger
-    //debugger
     const blogs = await blogService.getAll()
     dispatch(setBlogs(blogs))
   }
@@ -39,6 +37,20 @@ export const addBlog = (blog) => {
   return async (dispatch) => {
     const newBlog = await blogService.create(blog)
     dispatch(appendBlog(newBlog))
+  }
+}
+
+export const updateLikes = (id, blogToUpdate) => {
+  return async (dispatch) => {
+    const updateLikes = await blogService.update(id, blogToUpdate)
+    dispatch(updateBlog(updateLikes))
+  }
+}
+
+export const deleteBlog = (id) => {
+  return async (dispatch) => {
+    await blogService.remove(id)
+    dispatch(removeBlog(id))
   }
 }
 

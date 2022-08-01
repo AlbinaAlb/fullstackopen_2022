@@ -44,28 +44,6 @@ const App = () => {
     setUser(null)
   }
 
-  /*   const updateLikes = async (id, blogToUpdate) => {
-    try {
-      const updateBlog = await blogService.update(id, blogToUpdate)
-      const newBlogs = blogs.map((blog) => (blog.id === id ? updateBlog : blog))
-      setBlogs(newBlogs)
-      dispatch(setNotification(`You liked '${updateBlog.title}'`, 5))
-    } catch (error) {
-      dispatch(setNotification('error' + error.response.data.error, 5))
-    }
-  }
-
-  const deleteBlog = async (id) => {
-    try {
-      await blogService.remove(id)
-      const updateBlog = blogs.filter((blog) => blog.id !== id)
-      setBlogs(updateBlog)
-      dispatch(setNotification('Blog removed', 5))
-    } catch (error) {
-      dispatch(setNotification('error' + error.response.data.error, 5))
-    }
-  } */
-
   const blogFormRef = useRef()
 
   return (
@@ -91,8 +69,6 @@ const App = () => {
               <Blog
                 key={blog.id}
                 blog={blog}
-                /* updateLikes={updateLikes}
-                deleteBlog={deleteBlog} */
                 username={user.username}
               />
             ))}
