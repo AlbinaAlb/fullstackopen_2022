@@ -4,7 +4,7 @@ import loginService from '../services/login'
 
 const loginSlice = createSlice({
   name: 'login',
-  initialState: [],
+  initialState: null,
   reducers: {
     setUser(state, action) {
       return action.payload
@@ -38,9 +38,9 @@ export const userLogin = (user) => {
       username,
       password,
     })
-    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(userLog))
 
-    blogService.setToken(user.token)
+    blogService.setToken(userLog.token)
     dispatch(login(userLog))
   }
 }

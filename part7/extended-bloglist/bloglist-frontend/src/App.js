@@ -1,28 +1,24 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
-import blogService from './services/blogs'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { userLogout } from './reducers/loginReducer'
+import { loggedUser, userLogout } from './reducers/loginReducer'
 
 const App = () => {
   const message = useSelector((state) => state.message)
   const blogs = useSelector((state) => state.blogs)
-  const [user, setUser] = useState(null)
+  const user = useSelector((state) => state.login)
+
   const dispatch = useDispatch()
 
+
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
-    }
-  }, [])
+    dispatch(loggedUser())
+  }, [dispatch])
 
   const handleLogout = () => {
     dispatch(userLogout())

@@ -14,7 +14,9 @@ const Blog = ({ blog, username }) => {
   const handleLike = () => {
     try {
       const blogToUpdate = {
+        ...blog,
         likes: blog.likes + 1,
+        user: blog.user.id,
       }
       dispatch(updateLikes(blog.id, blogToUpdate))
       dispatch(setNotification(`You liked '${blog.title}'`, 5))
