@@ -4,12 +4,11 @@ import { initializeBlogs } from '../reducers/blogReducer'
 import { orderBy } from 'lodash'
 import Togglable from './Togglable'
 import BlogForm from './BlogForm'
-import Blog from './Blog'
+import { Link } from 'react-router-dom'
 
 const BlogList = () => {
   const dispatch = useDispatch()
   const blogs = useSelector((state) => state.blogs)
-  const user = useSelector((state) => state.login)
   const blogFormRef = useRef()
   const sortedBlogs = orderBy(blogs, ['likes'], ['desc'])
 
@@ -24,7 +23,9 @@ const BlogList = () => {
         <BlogForm />
       </Togglable>
       {sortedBlogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} username={user.username} />
+        <div key={blog.id}>
+          <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+        </div>
       ))}
     </div>
   )
