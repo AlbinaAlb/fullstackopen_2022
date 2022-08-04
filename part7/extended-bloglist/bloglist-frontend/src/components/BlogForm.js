@@ -1,7 +1,6 @@
-import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useField } from '../hooks'
-import { addBlog, initializeBlogs } from '../reducers/blogReducer'
+import { addBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
 const BlogForm = () => {
@@ -9,10 +8,6 @@ const BlogForm = () => {
   const { reset: resetTitle, ...title } = useField('text')
   const { reset: resetAuthor, ...author } = useField('text')
   const { reset: resetUrl, ...url } = useField('text')
-
-  useEffect(() => {
-    dispatch(initializeBlogs())
-  }, [dispatch])
 
   const handleCreateBlog = async (event) => {
     try {
