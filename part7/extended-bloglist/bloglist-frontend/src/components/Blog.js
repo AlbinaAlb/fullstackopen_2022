@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { deleteBlog, updateLikes } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import Comments from './Comments'
 
 const Blog = ({ blog, user }) => {
   if (!blog) return null
@@ -48,6 +49,7 @@ const Blog = ({ blog, user }) => {
             remove
           </button>
         )}
+        <Comments blog={blog} />
       </div>
     </div>
   )
