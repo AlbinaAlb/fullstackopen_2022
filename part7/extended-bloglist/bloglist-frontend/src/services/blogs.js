@@ -21,8 +21,13 @@ const create = async (newObject) => {
   return response.data
 }
 
-const update = async (id, newObject) => {
+const addLike = async (id, newObject) => {
   const response = await axios.put(`${baseUrl}/${id}`, newObject)
+  return response.data
+}
+
+const addComment = async (id, comment) => {
+  const response = await axios.post(`${baseUrl}/${id}/comments`, { comment })
   return response.data
 }
 
@@ -37,7 +42,8 @@ const remove = async (id) => {
 const blogService = {
   getAll,
   create,
-  update,
+  addLike,
+  addComment,
   remove,
   setToken,
 }
