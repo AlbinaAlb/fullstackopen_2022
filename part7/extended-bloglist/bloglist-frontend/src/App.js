@@ -3,13 +3,14 @@ import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { Routes, Route, Link, useMatch } from 'react-router-dom'
-import { loggedUser, userLogout } from './reducers/loginReducer'
+import { Routes, Route, useMatch } from 'react-router-dom'
+import { loggedUser } from './reducers/loginReducer'
 import Users from './components/Users'
 import { initializeUsers } from './reducers/userReducer'
 import BlogList from './components/BlogList'
 import User from './components/User'
 import Blog from './components/Blog'
+import Navigation from './components/Navigation'
 
 const App = () => {
   const message = useSelector((state) => state.message)
@@ -22,14 +23,6 @@ const App = () => {
     dispatch(loggedUser())
     dispatch(initializeUsers())
   }, [dispatch])
-
-  const handleLogout = () => {
-    dispatch(userLogout())
-  }
-
-  const padding = {
-    padding: 5,
-  }
 
   const matchUser = useMatch('/users/:id')
   const userId = matchUser
@@ -47,17 +40,8 @@ const App = () => {
         <LoginForm />
       ) : (
         <div>
-          <Link style={padding} to="/">
-            Blogs
-          </Link>
-          <Link style={padding} to="/users">
-            Users
-          </Link>
-          <h1>Blogs app</h1>
-          <div>
-            <span>{user.name} logged-in</span>{' '}
-            <button onClick={handleLogout}>logout</button>
-          </div>
+          <Navigation />
+          <h1>Blog app</h1>
           <Notification message={message} />
           <Routes>
             <Route path="/" element={<BlogList />} />
