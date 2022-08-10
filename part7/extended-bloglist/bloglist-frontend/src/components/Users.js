@@ -17,7 +17,7 @@ const Users = ({ users }) => {
               return (
                 <tr key={user.id}>
                   <td>
-                    <Link to={`/users/${user.id}`}>{user.username}</Link>
+                    <Link className="text-reset text-secondary" to={`/users/${user.id}`}>{user.username}</Link>
                   </td>
                   <td>{user.blogs.length}</td>
                 </tr>

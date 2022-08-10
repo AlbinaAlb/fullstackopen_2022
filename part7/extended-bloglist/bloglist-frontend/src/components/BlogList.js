@@ -5,6 +5,7 @@ import { orderBy } from 'lodash'
 import Togglable from './Togglable'
 import BlogForm from './BlogForm'
 import { Link } from 'react-router-dom'
+import { Table } from 'react-bootstrap'
 
 const BlogList = () => {
   const dispatch = useDispatch()
@@ -22,11 +23,23 @@ const BlogList = () => {
       <Togglable buttonLabel="new blog" ref={blogFormRef}>
         <BlogForm />
       </Togglable>
-      {sortedBlogs.map((blog) => (
-        <div key={blog.id}>
-          <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-        </div>
-      ))}
+      <Table striped>
+        <tbody>
+          {sortedBlogs.map((blog) => (
+            <tr key={blog.id}>
+              <td>
+                <Link
+                  className="text-decoration-none text-reset text-secondary"
+                  to={`/blogs/${blog.id}`}
+                >
+                  {blog.title}
+                </Link>
+              </td>
+              <td>{blog.author}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     </div>
   )
 }

@@ -11,6 +11,7 @@ import BlogList from './components/BlogList'
 import User from './components/User'
 import Blog from './components/Blog'
 import Navigation from './components/Navigation'
+import { Container } from 'react-bootstrap'
 
 const App = () => {
   const message = useSelector((state) => state.message)
@@ -34,27 +35,25 @@ const App = () => {
     ? blogs.find((blog) => blog.id === matchBlog.params.id)
     : null
 
-  return (
-    <div>
-      {user === null ? (
+  if (user === null) {
+    return (
+      <Container>
         <LoginForm />
-      ) : (
-        <div>
-          <Navigation />
-          <h1>Blog app</h1>
-          <Notification message={message} />
-          <Routes>
-            <Route path="/" element={<BlogList />} />
-            <Route
-              path="/blogs/:id"
-              element={<Blog blog={blogId} user={user} />}
-            />
-            <Route path="/users" element={<Users users={users} />} />
-            <Route path="/users/:id" element={<User user={userId} />} />
-          </Routes>
-        </div>
-      )}
-    </div>
+      </Container>
+    )
+  }
+
+  return (
+    <Container>
+      <Notification message={message} />
+      <Navigation />
+      <Routes>
+        <Route path="/" element={<BlogList />} />
+        <Route path="/blogs/:id" element={<Blog blog={blogId} user={user} />} />
+        <Route path="/users" element={<Users users={users} />} />
+        <Route path="/users/:id" element={<User user={userId} />} />
+      </Routes>
+    </Container>
   )
 }
 
