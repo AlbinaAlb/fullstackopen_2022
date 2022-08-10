@@ -36,7 +36,9 @@ const Blog = ({ blog, user }) => {
     <div className="blog">
       <h2 className="title">{blog.title} </h2>
       <div className="blog-details">
-        <div className="url">{blog.url}</div>
+        <div className="url">
+          <a href="#">{blog.url}</a>
+        </div>
         <div className="likes">
           {blog.likes} likes{' '}
           <button id="like-btn" onClick={handleLike}>

@@ -22,8 +22,12 @@ const Navigation = () => {
       <Link style={padding} to="/users">
         users
       </Link>
-      <span>{currentUser.name} logged-in</span>{' '}
-      <button onClick={handleLogout}>logout</button>
+      {currentUser && (
+        <>
+          <span>{currentUser.name} logged-in</span>
+          <button onClick={handleLogout}>logout</button>
+        </>
+      )}
     </div>
   )
 }
