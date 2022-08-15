@@ -1,20 +1,20 @@
 interface Result {
-  periodLength: Number
-  trainingDays: Number
-  success: Boolean
-  rating: Number
-  ratingDescription: String
-  target: Number
-  average: Number
+  periodLength: number
+  trainingDays: number
+  success: boolean
+  rating: number
+  ratingDescription: string
+  target: number
+  average: number
 }
 
-const calculateExercises = (dailyHours: number[], target: number): Result => {
+const calculateExercises = (target: number, dailyHours: number[]): Result => {
   const periodLength = dailyHours.length
   const trainingDays = dailyHours.filter((hour) => hour > 0).length
   const average = dailyHours.reduce((a, b) => a + b) / periodLength
   const success = average >= target
 
-  const getRating = (average: number, target: number): number => {
+  const getRating = (target: number, average: number): number => {
     if (average < target * 0.8) return 1
     if (average < target) return 2
     if (average >= target) return 3
@@ -26,7 +26,7 @@ const calculateExercises = (dailyHours: number[], target: number): Result => {
     if (rating === 3) return 'Well done. Keep it up!'
   }
 
-  const rating = getRating(average, target)
+  const rating = getRating(target, average)
   const ratingDescription = getratingDescription(rating)
 
   return {
@@ -40,4 +40,9 @@ const calculateExercises = (dailyHours: number[], target: number): Result => {
   }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+const daily: number = Number(process.argv[2])
+const dailyHours: number[] = process.argv.slice(3).map((hour) => Number(hour))
+
+console.log(calculateExercises(daily, dailyHours))
+
+//console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
