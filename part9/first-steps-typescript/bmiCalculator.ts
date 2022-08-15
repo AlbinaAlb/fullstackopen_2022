@@ -1,9 +1,9 @@
-interface Values {
+/* interface Values {
   value1: number
   value2: number
-}
+} */
 
-const calculateBmi = (height: number, weight: number): string => {
+export const calculateBmi = (height: number, weight: number): string => {
   const bmi = weight / (height / 100) ** 2
   if (bmi < 18.5) {
     return 'Underweight'
@@ -16,7 +16,7 @@ const calculateBmi = (height: number, weight: number): string => {
   } else return 'Obese'
 }
 
-const parseArguments = (args: Array<string>):Values => {
+/* const parseArguments = (args: Array<string>):Values => {
   if (args.length < 4) throw new Error('Not enough arguments')
   if (args.length > 4) throw new Error('Too many arguments')
   if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
@@ -39,3 +39,4 @@ try {
   }
   console.log(errorMessage)
 }
+ */
