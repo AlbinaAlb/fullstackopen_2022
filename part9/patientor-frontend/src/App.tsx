@@ -9,6 +9,7 @@ import { Patient } from "./types";
 
 import PatientListPage from "./PatientListPage";
 import { Typography } from "@material-ui/core";
+import PatientData from "./components/PatientData";
 
 const App = () => {
   const [, dispatch] = useStateValue();
@@ -32,7 +33,7 @@ const App = () => {
     <div className="App">
       <Router>
         <Container>
-          <Typography variant="h3" style={{ marginBottom: "0.5em" }}>
+          <Typography variant="h3" style={{ marginBottom: '0.5em' }}>
             Patientor
           </Typography>
           <Button component={Link} to="/" variant="contained" color="primary">
@@ -41,6 +42,7 @@ const App = () => {
           <Divider hidden />
           <Routes>
             <Route path="/" element={<PatientListPage />} />
+            <Route path="/patients/:id" element={<PatientData />} />
           </Routes>
         </Container>
       </Router>

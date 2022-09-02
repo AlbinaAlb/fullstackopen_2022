@@ -3,14 +3,19 @@ import { Patient } from "../types";
 
 import { Action } from "./reducer";
 
+//объект с одним ключом patients, который получаeт из объекта строковые ключи и с Patient объектами в качестве значений
 export type State = {
   patients: { [id: string]: Patient };
+  patient: Patient | null;
 };
 
 const initialState: State = {
-  patients: {}
+  patients: {},
+  patient: null
 };
 
+
+//состояние приложения и функция диспетчеризации, которая используется для внесения изменений в данные
 export const StateContext = createContext<[State, React.Dispatch<Action>]>([
   initialState,
   () => initialState
@@ -25,6 +30,7 @@ export const StateProvider = ({
   reducer,
   children
 }: StateProviderProps) => {
+  //создание state и dispatcher и передача их в StateContext.Provider
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <StateContext.Provider value={[state, dispatch]}>
@@ -32,4 +38,5 @@ export const StateProvider = ({
     </StateContext.Provider>
   );
 };
+//компоненты, которым необходимо получить доступ к state или dispatcher, используют useStateValue для их получения
 export const useStateValue = () => useContext(StateContext);

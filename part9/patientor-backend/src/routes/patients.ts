@@ -5,7 +5,14 @@ import toNewPatient from '../utils'
 const router = express.Router()
 
 router.get('/', (_req, res) => {
-  res.send(patientService.getNonSensisitivePatientsData())
+  res.send(patientService.getPatients())
+})
+
+router.get('/:id', (req, res) => {
+  const { id } = req.params
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const patient = patientService.getPatientById(id)
+  res.send(patient)
 })
 
 router.post('/', (req, res) => {
