@@ -3,17 +3,17 @@ import { Patient, PublicPatient, NewPatient } from '../types'
 import { v1 as uuid } from 'uuid'
 
 const getPatientById = (id: string): Patient | undefined => {
-  return patientData.find((patient) => patient.id === id)
+  let patient = patientData.find((patient) => patient.id === id)
+  if (patient && !patient?.entries)
+    patient = {
+      ...patient,
+      entries: [],
+    }
+  return patient
 }
 
 const getPatients = (): PublicPatient[] => {
-  return patientData.map((patient) => ({
-    id: patient.id,
-    name: patient.name,
-    dateOfBirth: patient.dateOfBirth,
-    gender: patient.gender,
-    occupation: patient.occupation,
-  }))
+  return patientData
 }
 
 const addPatient = (entry: NewPatient): Patient => {

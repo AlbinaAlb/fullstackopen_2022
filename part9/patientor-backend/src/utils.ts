@@ -40,6 +40,8 @@ type Fields = {
   dateOfBirth: unknown
   occupation: unknown
   gender: unknown
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  entries: any
 }
 
 const toNewPatient = ({
@@ -48,6 +50,7 @@ const toNewPatient = ({
   dateOfBirth,
   occupation,
   gender,
+  entries,
 }: Fields): NewPatient => {
   const newEntry: NewPatient = {
     name: parseValue(name),
@@ -55,7 +58,8 @@ const toNewPatient = ({
     dateOfBirth: parseDate(dateOfBirth),
     occupation: parseValue(occupation),
     gender: parseGender(gender),
-    entries: [],
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    entries,
   }
   return newEntry
 }
