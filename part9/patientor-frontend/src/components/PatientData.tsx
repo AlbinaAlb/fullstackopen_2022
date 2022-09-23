@@ -2,19 +2,18 @@ import axios from 'axios';
 import React from 'react';
 import { useParams } from "react-router-dom";
 import { apiBaseUrl } from '../constants';
-import { setPatientData, useStateValue } from "../state";
-import { Patient, Entry } from "../types";
+import { setPatientData, useStateValue, setDiagnosisList } from "../state";
+import { Patient, Entry, Diagnosis } from "../types";
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import TransgenderIcon from '@mui/icons-material/Transgender';
 
 const PatientData = () => {
-  const [{ patient }, dispatch] = useStateValue();
+  const [{ patient, diagnosis }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
 
   React.useEffect(() => {
     const fetchPatient = async () => {
-      if (!id) return;
       try {
         const { data: patientDataFromApi } = await axios.get<Patient>(
           `${apiBaseUrl}/patients/${id}`
@@ -25,8 +24,20 @@ const PatientData = () => {
       }
     };
 
+    const fetchDiagnosis = async () => {
+      try {
+        const { data: diagnosisListFromApi } = await axios.get<Diagnosis[]>(
+          `${apiBaseUrl}/diagnoses`
+        )
+        dispatch(setDiagnosisList(diagnosisListFromApi))
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     if (!patient || patient?.['id'] !== id) {
       void fetchPatient();
+      void fetchDiagnosis();
     }
   }, [patient, id, dispatch]);
 
@@ -51,13 +62,18 @@ const PatientData = () => {
         </p>
         {entry.diagnosisCodes && (
           <ul>
-            {entry.diagnosisCodes.map((code) => (
-              <li key={code}>{code}</li>
-            ))}
+            {entry.diagnosisCodes.map((code: string) => {
+              debugger
+              return (
+                <li key={code}>
+                  {code} {diagnosis[code]?.name}
+                </li>
+              )
+            })}
           </ul>
         )}
       </div>
-    );
+    )
   };
   
   const totalEntries = patient ? patient?.entries?.length : 0

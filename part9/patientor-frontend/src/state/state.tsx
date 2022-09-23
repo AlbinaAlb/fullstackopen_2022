@@ -1,19 +1,19 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { Patient } from "../types";
+import { Patient, Diagnosis } from "../types";
 
 import { Action } from "./reducer";
 
-//объект с одним ключом patients, который получаeт из объекта строковые ключи и с Patient объектами в качестве значений
 export type State = {
   patients: { [id: string]: Patient };
   patient: Patient | null;
+  diagnosis: { [id: string]: Diagnosis };
 };
 
 const initialState: State = {
   patients: {},
-  patient: null
+  patient: null,
+  diagnosis: {},
 };
-
 
 //состояние приложения и функция диспетчеризации, которая используется для внесения изменений в данные
 export const StateContext = createContext<[State, React.Dispatch<Action>]>([
