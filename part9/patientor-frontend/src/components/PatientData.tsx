@@ -7,6 +7,7 @@ import { Patient, Entry, Diagnosis } from "../types";
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import TransgenderIcon from '@mui/icons-material/Transgender';
+import EntryDetails from './EntryDetails';
 
 const PatientData = () => {
   const [{ patient, diagnosis }, dispatch] = useStateValue();
@@ -57,20 +58,20 @@ const PatientData = () => {
   const getEntryView = (entry: Entry) => {
     return (
       <div key={entry.id}>
-        <p>
-          {entry.date} {entry.description}
-        </p>
+        <EntryDetails entry={entry} />
         {entry.diagnosisCodes && (
-          <ul>
-            {entry.diagnosisCodes.map((code: string) => {
-              debugger
-              return (
-                <li key={code}>
-                  {code} {diagnosis[code]?.name}
-                </li>
-              )
-            })}
-          </ul>
+          <>
+            <h4>Diagnoses</h4>
+            <ul>
+              {entry.diagnosisCodes.map((code: string) => {
+                return (
+                  <li key={code}>
+                    {code} {diagnosis[code]?.name}
+                  </li>
+                )
+              })}
+            </ul>
+          </>
         )}
       </div>
     )
@@ -85,8 +86,8 @@ const PatientData = () => {
           {patient?.name} {genderIcon()}
         </h2>
       </div>
-      <p>ssn: {patient?.ssn}</p>
-      <p>occupation: {patient?.occupation}</p>
+      <div>ssn: {patient?.ssn}</div>
+      <div>occupation: {patient?.occupation}</div>
       {!!totalEntries && (
         <>
           <h3>entries</h3>
