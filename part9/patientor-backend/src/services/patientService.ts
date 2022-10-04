@@ -1,5 +1,5 @@
 import patientData from '../../data/patientsData'
-import { Patient, PublicPatient, NewPatient } from '../types'
+import { Patient, PublicPatient, NewPatient, Entry } from '../types'
 import { v1 as uuid } from 'uuid'
 
 const getPatientById = (id: string): Patient | undefined => {
@@ -26,8 +26,18 @@ const addPatient = (entry: NewPatient): Patient => {
   return newPatient
 }
 
+const addEntry = (patientId: string, entry: Entry): Entry => {
+  const patient: Patient | undefined = getPatientById(patientId)
+  if (!patient) {
+    throw new Error(`Incorrect patient id`)
+  }
+  patient.entries.push(entry)
+  return entry
+}
+
 export default {
   getPatientById,
   getPatients,
   addPatient,
+  addEntry,
 }
