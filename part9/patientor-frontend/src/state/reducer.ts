@@ -1,5 +1,5 @@
-import { State } from "./state";
-import { Patient, Diagnosis } from "../types";
+import { State } from './state'
+import { Patient, Diagnosis, Entry } from '../types'
 
 export type Action =
   | {
@@ -15,9 +15,13 @@ export type Action =
       payload: Patient
     }
   | {
+      type: 'ADD_ENTRY'
+      payload: Entry
+    }
+  | {
       type: 'SET_PATIENT_DATA'
       payload: Patient
-    };
+    }
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -32,7 +36,7 @@ export const reducer = (state: State, action: Action): State => {
           ...state.diagnosis,
         },
       }
-    case "SET_PATIENT_LIST":
+    case 'SET_PATIENT_LIST':
       return {
         ...state,
         patients: {
@@ -40,26 +44,37 @@ export const reducer = (state: State, action: Action): State => {
             (memo, patient) => ({ ...memo, [patient.id]: patient }),
             {}
           ),
-          ...state.patients
-        }
-      };
-    case "ADD_PATIENT":
+          ...state.patients,
+        },
+      }
+    case 'ADD_PATIENT':
       return {
         ...state,
         patients: {
           ...state.patients,
-          [action.payload.id]: action.payload
-        }
-      };
-      case "SET_PATIENT_DATA":
-        return {
-          ...state,
-          patient: action.payload,
-        };
+          [action.payload.id]: action.payload,
+        },
+      }
+    case 'SET_PATIENT_DATA':
+      return {
+        ...state,
+        patient: action.payload,
+      }
+    case 'ADD_ENTRY':
+      return {
+        ...state,
+        patient: {
+          ...state.patient,
+          entries:
+            state.patient?.entries === undefined
+              ? [action.payload]
+              : [...state.patient.entries, action.payload],
+        } as Patient,
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
 export const setDiagnosisList = (diagnosisListFromApi: Diagnosis[]): Action => {
   return {
@@ -79,6 +94,13 @@ export const addPatient = (newPatient: Patient): Action => {
   return {
     type: 'ADD_PATIENT',
     payload: newPatient,
+  }
+}
+
+export const addEntry = (newEntry: Entry): Action => {
+  return {
+    type: 'ADD_ENTRY',
+    payload: newEntry,
   }
 }
 
